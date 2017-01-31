@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,20 +18,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WebDownloader extends AsyncTask<Void, String, Boolean> {
-    //stucom.flx.cat/lego/get_set_parts.php?key=QuZPTD9gr7&set=numCaja
-
-    //descargar cajas por tema: http://rebrickable.com/api/v3/lego/sets/?key=QuZPTD9gr7&search=star%20wars
 
     private Context context;
-    public WebDownloader(Context context) {
+    private String tema;
+    public WebDownloader(Context context, String tema) {
+        this.tema=tema;
         this.context = context;
     }
 
-	private OnCurrenciesLoadedListener listener = null;
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
+
+    private OnCurrenciesLoadedListener listener = null;
 	public void setOnCurrenciesLoadedListener(OnCurrenciesLoadedListener listener) {
 		this.listener = listener;
 	}
-
     private ProgressDialog pDialog;
 
     @Override protected void onPreExecute() {
@@ -49,43 +57,21 @@ public class WebDownloader extends AsyncTask<Void, String, Boolean> {
 	@Override protected Boolean doInBackground(Void... params) {
 		int count;
 		try {
-			URL url = new URL("http://www.QuZPTD9gr7");
+			URL url = new URL("http://rebrickable.com/api/v3/lego/sets/?key=QuZPTD9gr7&search="+this.tema);
 			URLConnection connection = url.openConnection();
 			connection.connect();
-			int lengthOfFile = connection.getContentLength();
-            pDialog.setMax(lengthOfFile);
 			InputStream input = new BufferedInputStream(url.openStream(), 8192);
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 			byte data[] = new byte[1024];
 			long total = 0;
 			while ((count = input.read(data)) != -1) {
 				total += count;
- 				publishProgress("" + (int) ((total * 100) / lengthOfFile));
 				output.write(data, 0, count);
 			}
+
             input.close();
 			output.flush();
             String xml = new String(output.toByteArray());
-            File dir = context.getExternalFilesDir(null);
-            if (dir == null) return false;
-            File f = new File(dir, "currencies.csv");
-            f.delete();
-            PrintWriter wr = new PrintWriter(f);
-            Pattern pattern = Pattern.compile(".*<Cube time='(.*)'.*");
-            Matcher matcher = pattern.matcher(xml);
-            if (!matcher.find()) return false;
-            String time = matcher.group(1);
-            wr.println(time);
-            wr.println("EUR:1.0000");
-            pattern = Pattern.compile(".*<Cube currency='(.*)' rate='(.*)'.*");
-            matcher = pattern.matcher(xml);
-            while (matcher.find()) {
-                String currency = matcher.group(1);
-                String rate = matcher.group(2);
-                wr.println(currency + ":" + rate);
-            }
-            wr.flush();
-            wr.close();
 		} catch (Exception e) {
 			Log.e("Error: ", e.getMessage());
             return false;
