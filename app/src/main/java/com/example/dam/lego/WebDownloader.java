@@ -7,6 +7,9 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,7 +74,18 @@ public class WebDownloader extends AsyncTask<Void, String, Boolean> {
 
             input.close();
 			output.flush();
-            String xml = new String(output.toByteArray());
+            String json = new String(output.toByteArray());
+
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            String prueba = "{\n" +
+                    "            \"set_num\": \"7958-17\",\n" +
+                    "            \"last_modified_dt\": \"2015-11-24T10:01:51.219706Z\"\n" +
+                    "        }";
+
+
+            Prueba prueba1 = gson.fromJson(prueba,  Prueba.class);
+            Log.d("GSON PRUEBA", prueba1.toString());
 		} catch (Exception e) {
 			Log.e("Error: ", e.getMessage());
             return false;

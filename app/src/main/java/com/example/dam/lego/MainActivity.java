@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void updateSpinners() {
         SimpleCursorAdapter adapter;
-        adapter = new SimpleCursorAdapter(this, R.layout.lista_cajas, cursor, new String[]{"currency", "name"}, new int[]{R.id.textView1, R.id.textView2}, 0);
+       // adapter = new SimpleCursorAdapter(this, R.layout.lista_cajas, cursor, new String[]{"currency", "name"}, new int[]{R.id.textView1, R.id.textView2}, 0);
 
         spinner.setAdapter(adapter);
     }
