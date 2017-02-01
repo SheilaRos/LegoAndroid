@@ -52,4 +52,13 @@ public class CajaList {
             this.results = results;
         }
 
+    @Override
+    public String toString() {
+        return "CajaList{" +
+                "count=" + count +
+                ", next='" + next + '\'' +
+                ", previous=" + previous +
+                ", results=" + results +
+                '}';
     }
+}

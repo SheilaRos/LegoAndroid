@@ -26,13 +26,27 @@ public class WebDownloader extends AsyncTask<Void, String, String> {
     private String tema;
     private GsonBuilder builder ;
     private Gson gson;
+    private MainActivity mainActivity;
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
+
+    public void setMainActivity(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
+
+
 
     public WebDownloader(Context context, String tema) {
         this.tema=tema;
         this.context = context;
-         this.builder = new GsonBuilder();
+        this.builder = new GsonBuilder();
         this.gson = builder.create();
     }
+
+
+    //TODO use a callback interface
+
 
     public String getTema() {
         return tema;
@@ -61,7 +75,7 @@ public class WebDownloader extends AsyncTask<Void, String, String> {
 	@Override protected String doInBackground(Void... params) {
 		int count;
 		try {
-			URL url = new URL("http://rebrickable.com/api/v3/lego/sets/?key=QuZPTD9gr7&search=star wars");
+			URL url = new URL("http://rebrickable.com/api/v3/lego/sets/?key=QuZPTD9gr7&search="+this.tema);
 			URLConnection connection = url.openConnection();
 			connection.connect();
 			InputStream input = new BufferedInputStream(url.openStream(), 8192);
@@ -72,7 +86,6 @@ public class WebDownloader extends AsyncTask<Void, String, String> {
 				total += count;
 				output.write(data, 0, count);
 			}
-
             input.close();
 			output.flush();
             String json = new String(output.toByteArray());
@@ -91,12 +104,9 @@ public class WebDownloader extends AsyncTask<Void, String, String> {
 
 	@Override public void onPostExecute(String json) {
         CajaList cajaList = gson.fromJson(json,  CajaList.class);
-        Log.d("GSON PRUEBA", cajaList.toString());
         pDialog.dismiss();
+        mainActivity.notifyCajaList(cajaList);
 
 	}
 
-    public interface OnCurrenciesLoadedListener {
-        public void onCurrenciesLoaded(boolean ok);
-    }
 }
