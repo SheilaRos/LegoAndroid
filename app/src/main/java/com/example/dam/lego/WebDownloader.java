@@ -20,13 +20,18 @@ import java.net.URLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WebDownloader extends AsyncTask<Void, String, Boolean> {
+public class WebDownloader extends AsyncTask<Void, String, String> {
 
     private Context context;
     private String tema;
+    private GsonBuilder builder ;
+    private Gson gson;
+
     public WebDownloader(Context context, String tema) {
         this.tema=tema;
         this.context = context;
+         this.builder = new GsonBuilder();
+        this.gson = builder.create();
     }
 
     public String getTema() {
@@ -37,10 +42,6 @@ public class WebDownloader extends AsyncTask<Void, String, Boolean> {
         this.tema = tema;
     }
 
-    private OnCurrenciesLoadedListener listener = null;
-	public void setOnCurrenciesLoadedListener(OnCurrenciesLoadedListener listener) {
-		this.listener = listener;
-	}
     private ProgressDialog pDialog;
 
     @Override protected void onPreExecute() {
@@ -57,10 +58,10 @@ public class WebDownloader extends AsyncTask<Void, String, Boolean> {
         pDialog.show();
     }
 
-	@Override protected Boolean doInBackground(Void... params) {
+	@Override protected String doInBackground(Void... params) {
 		int count;
 		try {
-			URL url = new URL("http://rebrickable.com/api/v3/lego/sets/?key=QuZPTD9gr7&search="+this.tema);
+			URL url = new URL("http://rebrickable.com/api/v3/lego/sets/?key=QuZPTD9gr7&search=star wars");
 			URLConnection connection = url.openConnection();
 			connection.connect();
 			InputStream input = new BufferedInputStream(url.openStream(), 8192);
@@ -75,32 +76,24 @@ public class WebDownloader extends AsyncTask<Void, String, Boolean> {
             input.close();
 			output.flush();
             String json = new String(output.toByteArray());
+            return json;
 
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            String prueba = "{\n" +
-                    "            \"set_num\": \"7958-17\",\n" +
-                    "            \"last_modified_dt\": \"2015-11-24T10:01:51.219706Z\"\n" +
-                    "        }";
-
-
-            Prueba prueba1 = gson.fromJson(prueba,  Prueba.class);
-            Log.d("GSON PRUEBA", prueba1.toString());
 		} catch (Exception e) {
 			Log.e("Error: ", e.getMessage());
-            return false;
+            return e.toString();
 		}
 
-		return true;
 	}
 
     protected void onProgressUpdate(String... progress) {
         pDialog.setProgress(Integer.parseInt(progress[0]));
     }
 
-	@Override public void onPostExecute(Boolean result) {
+	@Override public void onPostExecute(String json) {
+        CajaList cajaList = gson.fromJson(json,  CajaList.class);
+        Log.d("GSON PRUEBA", cajaList.toString());
         pDialog.dismiss();
-		if (listener != null) listener.onCurrenciesLoaded(result);
+
 	}
 
     public interface OnCurrenciesLoadedListener {

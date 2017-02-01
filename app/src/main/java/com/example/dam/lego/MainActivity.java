@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Caja caja;
     Spinner spinner;
     EditText editText;
-    Button buscar = (Button) findViewById(R.id.btn_buscar);
+    //Button buscar = (Button) findViewById(R.id.btn_buscar);
 
      public void updateSpinner(){
 
@@ -25,14 +25,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void downloadBox() {
         WebDownloader dd = new WebDownloader(this, editText.getText().toString());
         dd.execute();
-        updateSpinner();
+
     }
 
     public void updateSpinners() {
         SimpleCursorAdapter adapter;
        // adapter = new SimpleCursorAdapter(this, R.layout.lista_cajas, cursor, new String[]{"currency", "name"}, new int[]{R.id.textView1, R.id.textView2}, 0);
 
-        spinner.setAdapter(adapter);
+        //spinner.setAdapter(adapter);
     }
 
     @Override
@@ -43,13 +43,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         editText = (EditText) findViewById(R.id.codigo);
         //spinner.setOnItemSelectedListener(this);
         editText.setText("");
-        buscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                caja = new Caja();
-                downloadBox();
-            }
-        });
+//        buscar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                downloadBox();
+//            }
+//        });
+        downloadBox();
     }
 
 
