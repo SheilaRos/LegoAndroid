@@ -11,45 +11,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.dam.lego.MainActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/texto"
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/spinner_cajas"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="21dp"
-        android:id="@+id/codigo"
-        android:layout_toLeftOf="@+id/btn_buscar"
-        android:layout_toStartOf="@+id/btn_buscar" />
-
-    <Button
-        android:text="Buscar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/codigo"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/btn_buscar" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:id="@+id/descripcion"
-        android:layout_alignTop="@+id/imageCaja"
-        android:layout_toRightOf="@+id/imageCaja"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner_piezas"
-        android:layout_below="@+id/descripcion"
-        android:layout_alignRight="@+id/descripcion"
-        android:layout_alignEnd="@+id/descripcion"
-        android:layout_marginTop="13dp" />
+        android:layout_marginTop="20dp"
+        android:id="@+id/lista_partes" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,6 +26,34 @@
         android:text="Introduce el tema de la caja:"
         android:id="@+id/texto"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/codigo"
+        android:layout_below="@+id/texto"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Buscar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_buscar"
+        android:layout_alignBaseline="@+id/codigo"
+        android:layout_alignBottom="@+id/codigo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_cajas"
+        android:layout_below="@+id/btn_buscar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

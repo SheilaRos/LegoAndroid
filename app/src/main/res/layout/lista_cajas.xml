@@ -22,16 +22,16 @@
         <TextView
         android:text="Producte"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="47dp"
         android:id="@+id/nom"
-        android:textSize="24dp" />
+        android:textSize="14sp" />
 
         <TextView
             android:text="Disponible"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="24dp"
             android:id="@+id/descripcion"
-            android:textSize="12dp"/>
+            android:textSize="10sp"/>
     </LinearLayout>
 
 </LinearLayout>

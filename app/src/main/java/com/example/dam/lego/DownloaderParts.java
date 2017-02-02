@@ -4,26 +4,20 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class WebDownloader extends AsyncTask<Void, String, String> {
+public class DownloaderParts extends AsyncTask<Void, String, String> {
 
     private Context context;
-    private String tema;
+    private String codigo;
     private GsonBuilder builder ;
     private Gson gson;
     private MainActivity mainActivity;
@@ -33,18 +27,18 @@ public class WebDownloader extends AsyncTask<Void, String, String> {
     public void setMainActivity(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
-    public WebDownloader(Context context, String tema) {
-        this.tema=tema;
+    public DownloaderParts(Context context, String codigo) {
+        this.codigo=codigo;
         this.context = context;
         this.builder = new GsonBuilder();
         this.gson = builder.create();
     }
     //TODO use a callback interface
-    public String getTema() {
-        return tema;
+    public String getCodigo() {
+        return codigo;
     }
-    public void setTema(String tema) {
-        this.tema = tema;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     private ProgressDialog pDialog;
     @Override protected void onPreExecute() {
@@ -64,7 +58,7 @@ public class WebDownloader extends AsyncTask<Void, String, String> {
 	@Override protected String doInBackground(Void... params) {
 		int count;
 		try {
-			URL url = new URL("http://rebrickable.com/api/v3/lego/sets/?key=QuZPTD9gr7&search="+this.tema);
+			URL url = new URL("http://rebrickable.com/api/v3/lego/sets/"+this.codigo+"/parts/?key=QuZPTD9gr7");
 			URLConnection connection = url.openConnection();
 			connection.connect();
 			InputStream input = new BufferedInputStream(url.openStream(), 8192);
@@ -88,10 +82,10 @@ public class WebDownloader extends AsyncTask<Void, String, String> {
     protected void onProgressUpdate(String... progress) {
         pDialog.setProgress(Integer.parseInt(progress[0]));
     }
-	@Override public void onPostExecute(String json) {
-        CajaList cajaList = gson.fromJson(json,  CajaList.class);
+    @Override public void onPostExecute(String json) {
+        PartsList partsList = gson.fromJson(json,  PartsList.class);
         pDialog.dismiss();
-        mainActivity.notifyCajaList(cajaList);
-	}
+        mainActivity.notifyPartsList(partsList);
+    }
 
 }
