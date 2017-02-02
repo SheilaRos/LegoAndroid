@@ -2,7 +2,6 @@ package com.example.dam.lego;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,9 +28,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dd.setMainActivity(this);
         dd.execute();
     }
-
-    public void updateSpinners(CajaList cajaList) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        spinner = (Spinner) findViewById(R.id.spinner_piezas);
+        editText = (EditText) findViewById(R.id.codigo);
+        button = (Button) findViewById(R.id.btn_buscar);
+        editText.setText("");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadBox();
+            }
+        });
+        spinner.setOnItemSelectedListener(this);
+    }
+    public void notifyCajaList(CajaList cajaList) {
+        this.cajaList = cajaList;
         int i = 0;
         for(Caja c : cajaList.getResults()){
             c.setYear(i);
@@ -50,15 +63,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             this.context = context;
             this.cajas = cajas;
         }
-
-
-
         public class ViewHolder {
             public TextView tvNom;
             public ImageView myImage;
             public TextView tvDescripcion;
         }
-
         @Override
         public int getCount() {
             return cajas.size();
@@ -72,10 +81,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public long getItemId(int position) {
             Caja c = cajas.get(position);
-            long id = c.getYear();
+                long id = c.getYear();
             return id;
         }
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View myView = convertView;
@@ -104,33 +112,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        spinner = (Spinner) findViewById(R.id.spinner_piezas);
-        editText = (EditText) findViewById(R.id.codigo);
-        button = (Button) findViewById(R.id.btn_buscar);
-        editText.setText("");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                downloadBox();
-           }
-        });
-        spinner.setOnItemSelectedListener(this);
-    }
-
-
-    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
-
-    public void notifyCajaList(CajaList cajaList) {
-        this.cajaList = cajaList;
-        Log.d("GSON PRUEBA", cajaList.toString());
-        updateSpinners(cajaList);
-    }
 
 }

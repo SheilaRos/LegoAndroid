@@ -89,6 +89,7 @@ public class WebDownloader extends AsyncTask<Void, String, String> {
             input.close();
 			output.flush();
             String json = new String(output.toByteArray());
+            Log.d("flx", json);
             return json;
 
 		} catch (Exception e) {
