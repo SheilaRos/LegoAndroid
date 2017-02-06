@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -105,8 +108,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String nom = caja.getName();
             holder.tvNom.setText(nom);
 
-            //String image = caja.getSetImgUrl();
-            //holder.myImage.setImageIcon(image);
+            Picasso.with(this.context).load(caja.getSetImgUrl()).into(holder.myImage, new Callback() {
+                @Override
+                public void onSuccess() {}
+                @Override
+                public void onError() {}
+            });
 
             String descripcion = caja.getSetNum();
             holder.tvDescripcion.setText(descripcion +"");
@@ -140,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 intent.putExtra("cantidad", partsList.getResults().get(position).getQuantity().toString());
                 intent.putExtra("nombre", partsList.getResults().get(position).getPart().getName());
                 intent.putExtra("color", partsList.getResults().get(position).getColor().getName());
+                intent.putExtra("url", partsList.getResults().get(position).getPart().getPartImgUrl());
                 startActivity(intent);
             }
         });
@@ -191,8 +199,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             String nom = part.getPart().getName();
             holder.tvNom.setText(nom);
 
-            //String image = caja.getSetImgUrl();
-            //holder.myImage.setImageIcon(image);
+            Picasso.with(this.context).load(part.getPart().getPartImgUrl()).into(holder.myImage, new Callback() {
+                @Override
+                public void onSuccess() {}
+                @Override
+                public void onError() {}
+            });
 
             return myView;
         }
