@@ -21,7 +21,7 @@
         android:id="@+id/nombrePieza"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:text="Cantidad:"
@@ -73,13 +73,27 @@
         android:layout_alignParentEnd="true"
         android:textSize="18sp" />
 
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView9"
+        android:layout_marginTop="35dp"
+        android:id="@+id/urlText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="12sp" />
+
     <ImageView
-        android:layout_width="200dp"
+        android:layout_width="100dp"
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/imagenPieza"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/textView9"
-        android:layout_toEndOf="@+id/textView9" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="28dp" />
 
 </RelativeLayout>

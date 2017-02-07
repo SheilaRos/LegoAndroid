@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 intent.putExtra("nombre", partsList.getResults().get(position).getPart().getName());
                 intent.putExtra("color", partsList.getResults().get(position).getColor().getName());
                 intent.putExtra("url", partsList.getResults().get(position).getPart().getPartImgUrl());
+                intent.putExtra("urlWeb", partsList.getResults().get(position).getPart().getPartUrl());
                 startActivity(intent);
             }
         });
