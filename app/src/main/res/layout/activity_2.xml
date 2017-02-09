@@ -91,9 +91,8 @@
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/imagenPieza"
         android:layout_height="100dp"
+        android:layout_marginBottom="32dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="28dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
